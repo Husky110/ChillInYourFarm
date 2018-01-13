@@ -6,5 +6,7 @@
   "UniqueID": "Husky110.ChillInYourFarmHouse",
   "EntryDll": "ChillInYourFarmHouse.dll",
   "MinimumApiVersion": "2.3",
-  "UpdateKeys": []
+  "UpdateKeys": [
+    "Github:Husky110/ChillInYourFarmHouse"
+  ]
 }
