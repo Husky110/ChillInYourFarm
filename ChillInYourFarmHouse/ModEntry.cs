@@ -20,7 +20,7 @@ namespace ChillInYourFarmHouse
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            LocationEvents.CurrentLocationChanged += this.LocationEvents_CurrentLocationChanged;
+            PlayerEvents.Warped += this.PlayerEvents_Warped;
             TimeEvents.TimeOfDayChanged += this.TimeEvents_TimeChanged;
 
         }
@@ -30,13 +30,11 @@ namespace ChillInYourFarmHouse
         *********/
 
 
-        private void LocationEvents_CurrentLocationChanged(object sender, EventArgsCurrentLocationChanged e)
+        private void PlayerEvents_Warped(object sender, EventArgsPlayerWarped e)
         {
             if (Context.IsWorldReady)
             {
-                this.location =  e.NewLocation.Name;
-
-                
+                this.location = e.NewLocation.Name;
             }
         }
 
@@ -45,11 +43,17 @@ namespace ChillInYourFarmHouse
 
             StardewValley.Farmer player = Game1.player;
 
-            if (Context.IsWorldReady == false || this.location != "FarmHouse" || player.stamina == player.MaxStamina)
+            bool allowAccess = false;
+            if (this.location == "FarmHouse" || this.location == "Cabin") 
+            {
+                allowAccess = true;
+            }
+
+            if (Context.IsWorldReady == false || allowAccess == false || player.stamina == player.MaxStamina)
             {
                 return;
             }
-
+            
             float currentPercentage = (player.Stamina / player.MaxStamina) * 100;
             float multiplicator = 0;
 
